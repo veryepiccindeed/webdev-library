@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <script>
+        function toggleFields() {
+            var bookType = document.getElementById('bookType').value;
+            var ebookFields = document.getElementById('ebookFields');
+            var printedBookFields = document.getElementById('printedBookFields');
+            var fileSizeInput = document.getElementById('fileSize');
+            var numberOfPagesInput = document.getElementById('numberOfPages');
+
+            if (bookType === 'EBook') {
+                ebookFields.style.display = 'block';
+                printedBookFields.style.display = 'none';
+                fileSizeInput.required = true;
+                numberOfPagesInput.required = false;
+            } else {
+                ebookFields.style.display = 'none';
+                printedBookFields.style.display = 'block';
+                fileSizeInput.required = false;
+                numberOfPagesInput.required = true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Library Management System</h1>
+
+    <!-- Form to Add Book Details -->
+    <form action="book.php" method="POST">
+        <h2>Add a Book</h2>
+
+        <!-- Book Type -->
+        <label for="bookType">Book Type:</label>
+        <select name="bookType" id="bookType" required onchange="toggleFields()">
+            <option value="EBook">EBook</option>
+            <option value="PrintedBook">PrintedBook</option>
+        </select>
+        <br><br>
+
+        <!-- Title -->
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" required>
+        <br><br>
+
+        <!-- Author -->
+        <label for="author">Author:</label>
+        <input type="text" name="author" id="author" required>
+        <br><br>
+
+        <!-- Publication Year -->
+        <label for="publicationYear">Publication Year:</label>
+        <input type="number" name="publicationYear" id="publicationYear" min="1500" max="2024" required>
+        <br><br>
+
+        <!-- EBook Specific (File Size) -->
+        <div id="ebookFields">
+            <label for="fileSize">File Size (MB):</label>
+            <input type="number" name="fileSize" id="fileSize" min="1" max="100">
+        </div>
+
+        <!-- PrintedBook Specific (Number of Pages) -->
+        <div id="printedBookFields" style="display: none;">
+            <label for="numberOfPages">Number of Pages:</label>
+            <input type="number" name="numberOfPages" id="numberOfPages" min="1">
+        </div>
+
+        <br><br>
+        <input type="hidden" name="addBook" value="1">
+        <button type="submit">Add Book</button>
+    </form>
+
+    <!-- Form for Querying Book Details -->
+    <form action="book2.php" method="POST">
+        <h2>Query Book Details</h2>
+
+        <label for="queryIndex">Enter Book Index:</label>
+        <input type="number" name="queryIndex" id="queryIndex" min="1" required>
+        <br><br>
+
+        <button type="submit" name="queryBook">Get Book Details</button>
+    </form>
+
+    <script>
+        // Initialize fields on page load
+        toggleFields();
+    </script>
+</body>
+</html>
